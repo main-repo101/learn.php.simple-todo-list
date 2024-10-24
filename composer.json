@@ -1,5 +1,6 @@
 {
     "name": "learn.php/simple-todo-list",
+    "version": "0.0.1",
     "description": "As student requirement.",
     "type": "project",
     "license": "MIT License",
