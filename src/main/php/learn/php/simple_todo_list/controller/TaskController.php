@@ -12,7 +12,18 @@ class TaskController {
     }
 
     //REM: Pagination logic and task retrieval
-    public function index($currentPage) {
+    public function index($currentPage): array {
+
+        if( !$this->taskManager->isConnectionSucceeded() ) 
+            return [
+                'tasks' => [], 
+                'totalPages' => 0, 
+                'currentPage' => 0,
+                'status' => [
+                    'code' => 123,
+                    'message' => 'Connection Failed.'
+                ]
+            ];
         $tasksPerPage = 5; //REM: Number of tasks per page
         $totalTasks = $this->taskManager->getTotalTasks(); //REM: Get total tasks
         $totalPages = ceil($totalTasks / $tasksPerPage?? $totalTasks ); //REM: Calculate total pages
@@ -46,6 +57,14 @@ class TaskController {
             header("location: ?page=$currentPage");
         }
 
-        return ['tasks' => $tasks, 'totalPages' => $totalPages, 'currentPage' => $currentPage];
+        return [
+            'tasks' => $tasks, 
+            'totalPages' => $totalPages, 
+            'currentPage' => $currentPage,
+            'status' => [
+                'code' => 0,
+                'message' => 'Connection Succeeded.'
+            ]
+        ];
     }
 }

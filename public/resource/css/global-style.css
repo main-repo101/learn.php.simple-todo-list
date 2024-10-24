@@ -111,3 +111,16 @@ h1 {
 .pagination a:hover {
     background-color: #ddd;
 }
+
+.pnl-note-error {
+    padding-bottom: 1.2rem;
+}
+
+.pnl-note-error .lbl-note-error.connectivity {
+    display: flex;
+    place-content: center;
+    width: 100%;
+    padding: .5rem 0rem;
+    color: white;
+    background-color: red;
+}

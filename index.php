@@ -14,6 +14,7 @@ $data = $taskController->index($currentPage);
 $tasks = $data['tasks'];
 $totalPages = $data['totalPages'];
 $currentPage = $data['currentPage'];
+$status = $data['status'];
 
 ?>
 
@@ -29,6 +30,13 @@ $currentPage = $data['currentPage'];
 
 <body>
     <div class="container">
+        <?php if( isset($status) && $status['code'] !== 0 ): ?>
+            <div class="pnl-note-error">
+                <h3 class="lbl-note-error connectivity">
+                    <?= $status['message']?? '' ?>
+                </h3>
+            </div>
+        <?php endif; ?>
         <h1>🌱 Eco-Friendly To-Do List 🌱</h1>
         
         <form method="POST" class="task-form">
@@ -40,8 +48,11 @@ $currentPage = $data['currentPage'];
             <?php foreach ($tasks as $task): ?>
                 <li class="<?php echo $task['completed'] ? 'completed' : ''; ?>">
                     <form method="POST" class="task-item">
-                        <?php echo htmlspecialchars($task['title']); ?>
+                        <!-- <textarea class="lbl-task-item"> -->
+                            <?= htmlspecialchars($task['title']) ?>
+                        <!-- </textarea> -->
                         <button 
+                            class="btn-task-item"
                             type="submit" 
                             name="<?php echo $task['completed'] ? 'undo' : 'complete'; ?>" 
                             value="<?php echo $task['id']; ?>">

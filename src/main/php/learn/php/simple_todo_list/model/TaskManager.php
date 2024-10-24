@@ -5,10 +5,14 @@ namespace learn\php\simple_todo_list\model;
 use learn\php\simple_todo_list\util\Database;
 
 class TaskManager {
-    private $pdo;
+    private \PDO|null $pdo = null;
 
     public function __construct() {
         $this->pdo = Database::getConnection();
+    }
+
+    public function isConnectionSucceeded(): bool {
+        return $this->pdo !== null;
     }
 
     //REM: Get the total number of tasks
@@ -19,7 +23,7 @@ class TaskManager {
         } catch (\PDOException | \Exception | \Error $e) {
             // die('Error retrieving task count: ' . $e->getMessage());
         }
-        return 0;
+        return -1;
     }
 
     public function addTask($title): bool {
@@ -35,27 +39,27 @@ class TaskManager {
 
 
     // Mark a task as complete
-    public function completeTask($id) {
+    public function completeTask($id): bool {
         try {
             $stmt = $this->pdo->prepare("UPDATE tasks SET completed = 1 WHERE id = :id");
-            $stmt->execute([':id' => $id]);
+            return $stmt->execute([':id' => $id]);
         } catch (\PDOException | \Exception | \Error $e) {
             // Handle any SQL query errors
             // die('Error completing task: ' . $e->getMessage());
         }
-        return;
+        return false;
     }
 
     // Mark a task as incomplete
-    public function incompleteTask($id) {
+    public function incompleteTask($id): bool {
         try {
             $stmt = $this->pdo->prepare("UPDATE tasks SET completed = 0 WHERE id = :id");
-            $stmt->execute([':id' => $id]);
+            return $stmt->execute([':id' => $id]);
         } catch (\PDOException | \Exception | \Error $e) {
             // Handle any SQL query errors
             // die('Error marking task as incomplete: ' . $e->getMessage());
         }
-        return;
+        return false;
     }
 
     //REM: Get tasks with pagination
