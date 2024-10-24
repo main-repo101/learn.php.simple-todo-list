@@ -1,0 +1,22 @@
+{
+    "name": "learn.php/simple-todo-list",
+    "description": "As student requirement.",
+    "type": "project",
+    "license": "MIT License",
+    "authors": [
+        {
+            "name": "jayoadonis",
+            "email": "jayo.adonisraphael@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "learn\\php\\simple_todo_list\\" : [
+                "src/main/php/learn/php/simple_todo_list/"
+            ]
+        }
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
