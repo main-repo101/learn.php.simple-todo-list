@@ -46,15 +46,16 @@ $status = $data['status'];
 
         <ul class="task-list">
             <?php foreach ($tasks as $task): ?>
+                <?php $taskStatus = $task['completed'] ? 'completed' : ''; ?>
                 <li class="">
                     <form method="POST" class="task-item">
                         <!-- <textarea class="lbl-task-item <?php //echo $task['completed'] ? 'completed' : ''; ?>" readonly rows="8" > -->
-                        <div class="lbl-task-item <?php echo $task['completed'] ? 'completed' : ''; ?>">
+                        <div class="lbl-task-item <?= $taskStatus ?>">
                             <?= htmlspecialchars($task['title']) ?>
                         </div>
                         <!-- </textarea> -->
                         <button
-                            class="btn-task-item"
+                            class="btn-task-item <?= $taskStatus ?>"
                             type="submit"
                             name="<?php echo $task['completed'] ? 'undo' : 'complete'; ?>"
                             value="<?php echo $task['id']; ?>">

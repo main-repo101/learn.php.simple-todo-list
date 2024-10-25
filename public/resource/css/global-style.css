@@ -56,6 +56,15 @@ h1 {
     background-color: #1e451e;
 }
 
+.task-item button.completed {
+    background-color: darkgray;
+    color: white;
+}
+
+.task-item button.completed:hover {
+    background-color: gray;
+}
+
 .task-list .completed {
     text-decoration: line-through;
     color: #aaa;
