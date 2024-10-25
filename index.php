@@ -25,6 +25,7 @@ $status = $data['status'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="public/resource/css/global-style.css">
+    <link rel="icon" href="public/resource/img/img-icon-leaf-check-360x360-000.png">
     <title>Eco-Friendly To-Do List</title>
 </head>
 
@@ -37,7 +38,7 @@ $status = $data['status'];
                 </h3>
             </div>
         <?php endif; ?>
-        <h1>🌱 Eco-Friendly To-Do List 🌱</h1>
+        <h1>🌱 Eco-Friendly ✅To-Do List 🌱</h1>
 
         <form method="POST" class="task-form">
             <input type="text" name="task" placeholder="Add a new eco-friendly task">
@@ -70,7 +71,7 @@ $status = $data['status'];
             <?php endforeach; ?>
         </ul>
 
-        <?php include 'src/main/php/learn/php/simple_todo_list/view/component/pagination.php'; ?>
+        <?php include __DIR_VIEW . '/component/pagination.php'; ?>
     </div>
     <!-- <script>
         //REM: Function to dynamically adjust the height of textareas
