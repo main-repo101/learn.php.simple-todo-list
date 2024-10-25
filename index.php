@@ -46,10 +46,12 @@ $status = $data['status'];
 
         <ul class="task-list">
             <?php foreach ($tasks as $task): ?>
-                <li class="<?php echo $task['completed'] ? 'completed' : ''; ?>">
+                <li class="">
                     <form method="POST" class="task-item">
-                        <!-- <textarea class="lbl-task-item" readonly> -->
-                        <?= htmlspecialchars($task['title']) ?>
+                        <!-- <textarea class="lbl-task-item <?php //echo $task['completed'] ? 'completed' : ''; ?>" readonly rows="8" > -->
+                        <div class="lbl-task-item <?php echo $task['completed'] ? 'completed' : ''; ?>">
+                            <?= htmlspecialchars($task['title']) ?>
+                        </div>
                         <!-- </textarea> -->
                         <button
                             class="btn-task-item"
@@ -65,7 +67,7 @@ $status = $data['status'];
 
         <?php include 'src/main/php/learn/php/simple_todo_list/view/component/pagination.php'; ?>
     </div>
-    <script>
+    <!-- <script>
         //REM: Function to dynamically adjust the height of textareas
         function adjustLblTasksItemHeight() {
             const lineHeight = parseInt(window.getComputedStyle(document.querySelector('.lbl-task-item')).lineHeight, 10); //REM: Get the computed line height dynamically
@@ -87,7 +89,7 @@ $status = $data['status'];
 
         //REM: Initial adjustment on page load
         adjustLblTasksItemHeight();
-    </script>
+    </script> -->
 </body>
 
 </html>
