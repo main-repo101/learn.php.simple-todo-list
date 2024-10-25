@@ -46,10 +46,14 @@ $status = $data['status'];
 
         <ul class="task-list">
             <?php foreach ($tasks as $task): ?>
-                <?php $taskStatus = $task['completed'] ? 'completed' : ''; ?>
+                <?php
+                $taskStatus = $task['completed'] ? 'completed' : '';
+                $btnLblTaskStatus = $task['completed'] ? 'Undo' : 'Todo';
+                ?>
                 <li class="">
                     <form method="POST" class="task-item">
-                        <!-- <textarea class="lbl-task-item <?php //echo $task['completed'] ? 'completed' : ''; ?>" readonly rows="8" > -->
+                        <!-- <textarea class="lbl-task-item <?php //echo $task['completed'] ? 'completed' : ''; 
+                                                            ?>" readonly rows="8" > -->
                         <div class="lbl-task-item <?= $taskStatus ?>">
                             <?= htmlspecialchars($task['title']) ?>
                         </div>
@@ -59,7 +63,7 @@ $status = $data['status'];
                             type="submit"
                             name="<?php echo $task['completed'] ? 'undo' : 'complete'; ?>"
                             value="<?php echo $task['id']; ?>">
-                            <?php echo $task['completed'] ? 'Undo' : 'Complete'; ?>
+                            <?= $btnLblTaskStatus ?>
                         </button>
                     </form>
                 </li>
