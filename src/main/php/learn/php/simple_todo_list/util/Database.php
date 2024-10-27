@@ -8,14 +8,33 @@ class Database
 {
     private static \PDO|null $connection = null;
 
+    //REM: [TODO, REFACTOR]
     public static function getConnection(): \PDO | null
     {
         if (!self::$connection) {
             try {
+                
+                //REM: [TODO, REFACTOR, FIX_BUG] .|. Properly merge and override environment variables.
+                $ENV_FILES = [".env.local", ".env"];
 
                 $dotenv = Dotenv::createImmutable(
-                    __DIR_ROOT,
-                    [".env.test", ".env.dev", ".env.local", ".env"]
+                    __DIR_ROOT
+                );
+                $dotenv->load();
+
+                $IS_DEV_MODE = $_ENV["LEARN_PHP_DEV_MODE"] === "true";
+
+                // //REM: If CLI explicitly pass an option --dev-mode
+                // if( \php_sapi_name() === "cli" )
+                //     $IS_DEV_MODE = isset($DEV_MODE) && $DEV_MODE === true;
+                
+                if( $IS_DEV_MODE ) {
+                    \array_unshift($ENV_FILES, ".env.test");
+                    \array_unshift($ENV_FILES, ".env.dev");
+                }
+
+                $dotenv = Dotenv::createImmutable(
+                    __DIR_ROOT, $ENV_FILES
                 );
                 $dotenv->load();
 
@@ -32,7 +51,7 @@ class Database
                 //REM: Create the tasks table if it doesn't exist
                 self::createTasksTableIfNotExists();
             } catch (\PDOException $e) {
-                // die('Database connection error: ' . $e->getMessage());
+                // die('::: Database connection error: ' . $e->getMessage());
             }
         }
         return self::$connection;
@@ -54,7 +73,7 @@ class Database
         try {
             return self::$connection->exec($sql);
         } catch (\PDOException $e) {
-            // die('Error creating tasks table: ' . $e->getMessage());
+            // die('::: Error creating tasks table: ' . $e->getMessage());
         }
         return false;
     }
