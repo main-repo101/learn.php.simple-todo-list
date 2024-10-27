@@ -2,6 +2,7 @@
 require_once __DIR__ . "/src/main/php/learn/php/simple_todo_list/autoload_config.php";
 
 use learn\php\simple_todo_list\controller\TaskController;
+use learn\php\simple_todo_list\util\Path;
 
 //REM: Initialize controller
 $taskController = new TaskController();
