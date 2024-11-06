@@ -2,10 +2,10 @@
 require_once __DIR__ . "/src/main/php/learn/php/simple_todo_list/autoload_config.php";
 
 use learn\php\simple_todo_list\controller\TaskController;
-use learn\php\simple_todo_list\util\Path;
 
 //REM: Initialize controller
-$taskController = new TaskController();
+$taskController = new TaskController(5);
+$taskManager = $taskController->getTaskManager();
 
 //REM: Get current page from query parameters (default to 1)
 $currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -17,6 +17,8 @@ $totalPages = $data['totalPages'];
 $currentPage = $data['currentPage'];
 $status = $data['status'];
 
+$TITLE = "Eco-Friendly ✅To-Do List";
+
 ?>
 
 <!DOCTYPE html>
@@ -26,77 +28,21 @@ $status = $data['status'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="public/resource/css/global-style.css">
+    <link rel="stylesheet" href="public/resource/css/task-list.css">
     <link rel="icon" href="public/resource/img/img-icon-leaf-check-360x360-000.png">
-    <title>Eco-Friendly To-Do List</title>
+    <title><?= isset($TITLE)? $TITLE : "<unknown-to-do-list>"?></title>
 </head>
 
 <body>
     <div class="container">
-        <?php if (isset($status) && $status['code'] !== 0): ?>
-            <div class="pnl-note-error">
-                <h3 class="lbl-note-error connectivity">
-                    <?= $status['message'] ?? '' ?>
-                </h3>
-            </div>
-        <?php endif; ?>
-        <h1>🌱 Eco-Friendly ✅To-Do List 🌱</h1>
+        <?php include __DIR_VIEW . '/component/header.php'; ?>
 
-        <form method="POST" class="task-form">
-            <input type="text" name="task" placeholder="Add a new eco-friendly task">
-            <button type="submit">Add Task</button>
-        </form>
+        <?php include __DIR_VIEW . '/component/interactive-bar.php'; ?>
 
-        <ul class="task-list">
-            <?php foreach ($tasks as $task): ?>
-                <?php
-                $taskStatus = $task['completed'] ? 'completed' : '';
-                $btnLblTaskStatus = $task['completed'] ? 'Undo' : 'Todo';
-                ?>
-                <li class="">
-                    <form method="POST" class="task-item">
-                        <!-- <textarea class="lbl-task-item <?php //echo $task['completed'] ? 'completed' : ''; 
-                                                            ?>" readonly rows="8" > -->
-                        <div class="lbl-task-item <?= $taskStatus ?>">
-                            <?= htmlspecialchars($task['title']) ?>
-                        </div>
-                        <!-- </textarea> -->
-                        <button
-                            class="btn-task-item <?= $taskStatus ?>"
-                            type="submit"
-                            name="<?php echo $task['completed'] ? 'undo' : 'complete'; ?>"
-                            value="<?php echo $task['id']; ?>">
-                            <?= $btnLblTaskStatus ?>
-                        </button>
-                    </form>
-                </li>
-            <?php endforeach; ?>
-        </ul>
+        <?php include __DIR_VIEW . '/component/task-list.php'; ?>
 
         <?php include __DIR_VIEW . '/component/pagination.php'; ?>
     </div>
-    <!-- <script>
-        //REM: Function to dynamically adjust the height of textareas
-        function adjustLblTasksItemHeight() {
-            const lineHeight = parseInt(window.getComputedStyle(document.querySelector('.lbl-task-item')).lineHeight, 10); //REM: Get the computed line height dynamically
-
-            //REM: Loop through each textarea with the class 'lbl-task-item'
-            document.querySelectorAll('.lbl-task-item').forEach(textarea => {
-                //REM: Calculate the number of lines based on scrollHeight and lineHeight
-                const rowCount = Math.floor(textarea.scrollHeight / lineHeight);
-
-                //REM: Set the height dynamically using calculated rows and lineHeight
-                textarea.style.height = `calc(min(200px, ${lineHeight * rowCount}px))`;
-            });
-        }
-
-        //REM: Adjust textarea height on input event
-        document.querySelectorAll('.lbl-task-item').forEach(textarea => {
-            textarea.addEventListener('input', adjustLblTasksItemHeight);
-        });
-
-        //REM: Initial adjustment on page load
-        adjustLblTasksItemHeight();
-    </script> -->
 </body>
-
+<script src="public/resource/js/task-list.js"></script>
 </html>
